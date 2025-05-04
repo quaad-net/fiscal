@@ -1,0 +1,39 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open --port 3000",
+    "build": "vite build",
+    "heroku-postbuild": "npm run build",
+    "lint": "eslint .",
+    "postinstall": "npm run build",
+    "preview": "vite preview",
+    "serve-heroku": "serve -s dist",
+    "start": "serve -s dist",
+    "vite": "vite"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.5.2",
+    "serve": "^14.2.4",
+    "vite": "^6.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.22.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "vite": "^6.3.1"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.2.4"
+  }
+}

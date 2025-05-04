@@ -1,0 +1,167 @@
+@keyframes slide-down {
+    from {top: -100vw;}
+    to {top: 0vw;}
+  }
+
+.sidebar{
+    z-index: 1;
+    position: fixed;
+    box-sizing: border-box;
+    top: 0px;
+    left: 0px;
+    width: 250px;
+    height: 100rem;
+    background-color: rgb(23, 23, 54);
+    background-color: rgba(23, 23, 54, 0.771);
+    border-radius: 10px;
+    animation-name: slide-down;
+    animation-duration: 0.5s;
+    border-bottom-right-radius: 5px;
+    overflow: hidden;
+}
+
+.sidebar-close{
+    display: sticky;
+    color: white;
+    float: right;
+    margin-right: 10px;
+    top: 5px;
+    font-size: 28px;
+    font-weight: bolder;
+}
+
+.sidebar-close:hover{
+    color: black;
+    cursor: pointer;
+}
+
+.logo, .icon-logo{
+    display: inline;
+}
+
+.icon-logo{
+    position: relative;
+    margin-left: 15px; 
+    top: 7px;
+}
+
+.logo{
+    box-sizing: border-box;
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+    text-wrap: wrap;
+    border-bottom: 1px solid white;
+}
+
+.divider{
+    box-sizing: border-box;
+    width: 100%;
+    height: 25px;
+}
+
+.field {
+    position: relative;
+    margin: auto;
+}
+
+
+  .textInputWrapper .textInput:focus,
+  .textInputWrapper .textInput:active {
+    outline: none;
+  }
+  
+  .textInputWrapper:focus-within .textInput,
+  .textInputWrapper .textInput:focus,
+  .textInputWrapper .textInput:active {
+    background-color: #353535;
+  }
+  
+  .textInputWrapper:focus-within .textInput::placeholder {
+    opacity: 0;
+  }
+  
+input{
+    text-rendering: auto;
+    color: fieldtext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    text-align: start;
+    appearance: auto;
+    cursor: text;
+    margin: 0em;
+    padding: 1px 0px;
+    border: 0;
+    border-radius: 5px;
+    background-color: rgb(32, 32, 32);
+    padding-block: 1px;
+    padding-inline: 2px;
+    padding-left: 3px;
+    color: white;
+    height: 35px;
+    margin-bottom: 2px;
+}
+
+#input-1{
+    padding-right: 25px;
+    background: url("../img/icons8-calendar.svg") no-repeat right;
+    background-size: 20px;
+    background-color: rgb(32, 32, 32);
+    width: 50px;
+    margin-left: 65px;
+}
+
+#input-1:focus{
+    background-color: #353535;
+}
+
+#input-2{
+    padding-right: 25px;
+    background: url("../img/icons8-date-to.svg") no-repeat right;
+    background-size: 20px;
+    background-color: rgb(32, 32, 32);
+    width: 50px;
+    margin-left: 65px;
+}
+
+#input-2:focus{
+    background-color: #353535;
+}
+
+::placeholder{
+    color:white;
+}
+
+#qryBtn:hover, #qryBtn:focus{
+    background-color: rgb(102, 1, 1);
+    background: linear-gradient(180deg, rgb(102, 1, 1), rgb(54, 0, 0));
+} 
+
+#qryBtn{
+    box-sizing: border-box;
+    width: 75px;
+    text-align: center;
+    font-size: small;
+    background: transparent;
+    border-radius: 5px;
+    border: 1px solid white;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-left: 68px; 
+    margin-top: 20px;
+}
+
+#qryBtn:hover{
+    cursor: pointer;
+}
+
+.hidden{
+    position: relative;
+    top: 75px;
+    box-sizing: border-box;
+    height: 1px;
+}

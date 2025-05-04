@@ -1,0 +1,25 @@
+.options-modal-content {
+    position: relative;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    width: 25%;
+    margin: auto;
+    padding: 0;
+    /* animation-name: animatetop; */
+    /* animation-duration: 0.4s; */
+    top: 50px;
+    background-color: rgb(23, 23, 54);
+    background-color: rgba(32, 32, 32, 0.653);
+}
+
+@media(max-width:700px){
+    .options-modal-content{
+        width: 50%;
+    }
+}
+
+@media(max-width:500px){
+    .options-modal-content{
+        width: 75%;
+    }
+}

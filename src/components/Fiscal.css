@@ -1,0 +1,380 @@
+.g1-container{
+    display: flex;
+    flex-direction: row;
+}
+
+#hlpr-g1-1, #hlpr-g1-2{
+    position: absolute;
+}
+
+.helper-icon:hover{
+    background-color: rgb(32, 32, 32);
+    background-color: rgba(32, 32, 32, 0.349);
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.g1{
+    flex: 0.5;
+    display: flex;
+    position: relative;
+    border-bottom: 1px solid white;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+}
+
+#g1-1{
+    border-bottom-right-radius: 0;
+}
+
+.g1-chart-container-1{
+    height: 350px;
+    width: 95%;
+    margin: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+#g1-2{
+    border-left: 1px solid white;
+    border-top-left-radius: 0;
+}
+
+.g1-chart-container-2{
+    height: 350px;
+    width: 95%;
+    margin: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.g2-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.g2-header{
+    display: flex;
+    border: 0;
+    border-radius: 5px;
+}
+
+.g2-header-items{
+    flex: 1;
+    padding: 5px;
+}
+
+#tb1{
+    margin-top: 25px;
+}
+
+.g2-1{
+    display: flex;
+}
+
+.g2-1-chart-container{
+    flex: 1;
+    height: 350px;
+    width: 350px;
+    margin: 10px;
+}
+
+.g2-2{
+    display: flex;
+    border: 1px solid white;
+    border-left: 0;
+    border-bottom: 0;
+    border-radius: 5px;
+    border-top: 0;
+}
+
+.g2-2-items{
+    flex: 1;
+    padding: 5px;
+    border-bottom: 1px solid white;
+}
+
+.g2-2-table{
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+    width: 100%;
+    border-top: 1px solid white;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    font-size: medium;
+}
+
+.g2-2-table div{
+    padding-left: 10px;
+    border-radius: 2px;
+}
+
+.g2-2-table div:nth-of-type(odd){
+    border: 1px solid rgb(78, 78, 78);
+    font-weight: bold;
+}
+
+.g2-2-table div:nth-of-type(odd):hover{
+    cursor: pointer;
+    border: 1px solid white;
+}
+
+.g2-2-table .field-value{
+    color: rgb(179, 179, 179);
+}
+
+.g2-3{
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+}
+
+.g2-3-title{
+    flex: 0.5;
+    font-size: medium;
+    margin-top: 10px;
+    border-top: 1px solid white;
+    padding: 5px;
+}
+
+.g2-3-chart-container{
+    flex: 3.5;
+    height: 350px;
+    width: 95%;
+    border-top: 1px solid white;
+    margin-top: 10px;
+}
+
+#g2-3-chart{
+    margin-left: 10px;
+}
+
+.additional-data{
+    display: flex;
+    flex-direction: row;
+}
+
+.additional-data-title{
+    font-weight: bold;
+    flex: 0.5;
+    padding: 5px;
+}
+
+#hlpr-additional-data{
+    display: block;
+}
+
+.additional-data-data-groups{
+    width: 100%;
+    text-align: center;
+    flex: 3.5;
+}
+
+.additional-data-group{
+    font-weight: bold;
+}
+
+.additional-data-group-1{
+    display: flex;
+    flex-direction: row;
+}
+
+#ad-1-1, #ad-1-2{
+    box-sizing: border-box;
+    flex: 1;
+    width: 50%;
+    max-width: 50%;
+    height: 100px;
+    border: 2px solid rgb(78, 78, 78);
+    border-radius: 5px;
+    margin: 5px;
+    padding-top: 35px;
+
+}
+
+.additional-data-group-2{
+    display: flex;
+    flex-direction: row;
+}
+
+#ad-2-1, #ad-2-2, #ad-2-3{
+    box-sizing: border-box;
+    flex: 1;
+    width: calc(100/3);
+    max-width: calc(100/3);
+    height: 100px;
+    border: 2px solid rgb(78, 78, 78);
+    border-radius: 5px;
+    margin: 5px;
+    padding-top: 35px;
+}
+
+#ad-1-1:hover, 
+#ad-1-2:hover, 
+#ad-2-1:hover, 
+#ad-2-2:hover, 
+#ad-2-3:hover{
+    border-width: 3px;
+    cursor: pointer;
+}
+
+/* additional-data Table Modal */
+
+#additional-data-table-modal{
+    background-color: rgba(0, 0, 0, 0.777)
+}
+
+.outer-container{
+    padding: 30px;
+    margin:auto;
+}
+
+.additional-data-table-modal-close{
+    float: right;
+    font-size: 28px;
+    font-weight:bolder;
+}
+
+.additional-data-table-modal-close:hover{
+    cursor: pointer;
+    color: rgb(107, 106, 106);
+}
+
+.table-container{
+    position: relative;
+    top: 50px;
+    max-width: 800px;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: white rgb(32, 32, 32);
+    margin: auto;
+}
+
+table{
+    border: 1px solid rgb(68, 68, 68);
+    border-radius: 5px;
+    margin: auto;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.544);
+}
+
+th{
+    font-size: small;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+
+th, td{
+    border: 1px solid rgb(68, 68, 68);
+    border-radius: 2px;
+}
+
+td{
+    font-family: 'Times New Roman', Times, serif;
+    padding: 5px;
+}
+
+tbody tr:hover{
+    background-color: rgb(63, 63, 63);
+}
+
+/* End - additional-data Table Modal */
+
+
+@media(max-width:1000px) {
+
+    .g1-container{
+        display: block;
+    }
+
+    #g1-1{
+        border-bottom-right-radius: 5px;
+    }
+
+    #g1-2{
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .g2-container{ 
+        display: block;
+    }
+
+    #tb1{
+        position: relative;
+        float: right;
+        bottom: 25px;
+        margin-right: 5px;
+    }
+
+    .g2-header, .g2-2{
+        border-right: 1px solid white;
+    }
+
+    .g2-1{
+        border: 1px solid white;
+        border-right: 0;
+        border-bottom: 0;
+        border-radius: 5px;
+    }    
+
+    .g2-2{
+        border-top: 1px solid white;
+        border-radius: 5px;
+    }
+
+    .g2-2-table{
+        border-left: 1px solid white;
+        border-top: 1px solid white;
+        border-radius: 5px;
+    }
+
+    .g2-3{
+        display: block;
+    }
+
+    .g2-3-title{
+        margin-top: 0;
+        border-right: 1px solid white;
+        border-bottom: 1px solid white;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .g2-3-chart-container{
+        width: 100%;
+        margin-top: 0;
+        border: 0;
+        border-left: 1px solid white;
+        border-radius: 5px;
+        border-bottom: 1px solid white;
+        border-bottom-right-radius: 5px;
+    }
+
+    .additional-data{
+        display: block;
+    }
+
+    .additional-data-title{
+        border: 1px solid white;
+        border-left: 0;
+        border-top: 0;
+        border-radius: 5px;
+    }
+}
+
+@media(max-width:500px){
+    
+    .g1-chart-container-1, .g1-chart-container-2, .g2-1-chart-container{
+        height: 250px;
+    }
+
+    .g2-1-chart-container{
+        width: 95%;
+    }
+    .additional-data-group{
+        font-size: small;
+    }
+
+}

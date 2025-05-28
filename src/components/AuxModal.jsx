@@ -39,11 +39,11 @@ export default function AuxModal(props){
                 <div className="aux-table-modal-data">
                     <span className="aux-table-modal-close" onClick={()=>{props.setModalOpen(false)}}>&times;</span>
                     <div className="aux-table-modal-header">
-                        Source
+                        {props.header || 'Info'}
                     </div>
                     <div className="aux-table-modal-rows">
                         <div className='aux-table-modal-row'>
-                        Monthly Treasury Statement (MTS); https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/outlays-of-the-u-s-government, Feb 4, 2024
+                        {props.modalContent}
                         </div>
                     </div>
                 </div>

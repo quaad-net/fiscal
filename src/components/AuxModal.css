@@ -103,7 +103,6 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: fit-content;
-    /* top: 50px; */
     margin: auto;
     margin-top: 20px;
 }
@@ -127,8 +126,6 @@
     padding-left: 5px;
     padding-right: 5px;
     word-wrap: break-word;
-    /* word-break: break-all; 
-    line-break: anywhere; */
 }
 
 
@@ -164,7 +161,6 @@
 .aux-table-modal-row:nth-of-type(even){
     background-color: #232323;
 }
-
 
 .aux-table-modal-row:hover{
     border: 1px solid white

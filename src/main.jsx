@@ -1,15 +1,15 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
+
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+
 import App from "./App";
 import ErrorPage from "./components/ErrorPage";
-// import ErrorBoundary from "./components/ErrorBoundary";
-// import Fiscal from "./components/Fiscal";
-// import Lgn from "./components/Lgn";
+import Errorboundary from "./components/ErrorBoundary";
 
 import "./index.css";
 
@@ -17,17 +17,8 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    // errorElement: <ErrorBoundary/>,
+    errorElement: <Errorboundary/>,
   },
-  // {
-  //   path: "/lgn",
-  //   element: <Lgn />,  
-    
-  // },
-  // {
-  //   path: "/dashboard",
-  //   element: <Fiscal />,
-  // },
   {
     path: "/*",
     element: <ErrorPage />,

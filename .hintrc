@@ -9,7 +9,9 @@
         "ignore": [
           "scrollbar-width",
           "scrollbar-color",
-          "scrollbar-width: thin"
+          "scrollbar-width: thin",
+          "text-wrap",
+          "text-wrap: wrap"
         ]
       }
     ]

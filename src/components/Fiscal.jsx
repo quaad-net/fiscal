@@ -1,4 +1,4 @@
-import { purplePalette, bluePaletteDark, pinkPaletteDark} from '@mui/x-charts/colorPalettes';
+import { purplePalette, pinkPaletteDark} from '@mui/x-charts/colorPalettes';
 import { useState, useEffect } from 'react';
 
 import AuxModal from './AuxModal';
@@ -630,22 +630,34 @@ export default function Fiscal(props){
                     </div>
                     <div style={{
                         width: 'fit-content', 
-                        margin: 'auto', 
+                        marginLeft: 'auto', 
+                        marginRight: 'auto',
                         marginBottom: '20px',
-                        padding: '5px', 
-                        borderRadius: '5px'
+                        padding: '5px',
                         }}
                     >
-                        {summary.min != undefined ?
+                        {summary.min != undefined ? 
                         <>
                             <span style={{fontWeight: 'bold'}}>▫&nbsp;Summary</span>
                             <div style={{paddingLeft: '20px'}}>
                                 <div>min: <span className='number-font' style={{color: 'gray'}}>{summary?.min.toFixed(2)}</span></div>
                                 <div>max: <span className='number-font' style={{color: 'gray'}}>{summary?.max.toFixed(2)}</span></div>
-                                <div>minDeltaPM: <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPM.moYr}</span> =&gt; <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPM.min.toFixed(2)}</span></div>
-                                <div>minDeltaPY: <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPY.moYr}</span> =&gt; <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPY.min.toFixed(2)}</span></div>
-                                <div>maxDeltaPM: <span className='number-font'style={{color: 'gray'}}>{summary.maxDeltaPM.moYr}</span> =&gt; <span className='number-font'style={{color: 'gray'}}>{summary.maxDeltaPM.max.toFixed(2)}</span></div>
-                                <div>maxDeltaPY: <span className='number-font' style={{color: 'gray'}}>{summary.maxDeltaPY.moYr}</span> =&gt; <span className='number-font' style={{color: 'gray'}}>{summary.maxDeltaPY.max.toFixed(2)}</span></div>
+                                <div>minDeltaPM:&nbsp;
+                                    <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPM.moYr}</span> =&gt;&nbsp;
+                                    <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPM.min.toFixed(2)}</span>
+                                </div>
+                                <div>minDeltaPY:&nbsp;
+                                    <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPY.moYr}</span> =&gt;&nbsp;
+                                    <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPY.min.toFixed(2)}</span>
+                                </div>
+                                <div>maxDeltaPM:&nbsp; 
+                                    <span className='number-font'style={{color: 'gray'}}>{summary.maxDeltaPM.moYr}</span> =&gt;&nbsp; 
+                                    <span className='number-font'style={{color: 'gray'}}>{summary.maxDeltaPM.max.toFixed(2)}</span>
+                                </div>
+                                <div>maxDeltaPY:&nbsp; 
+                                    <span className='number-font' style={{color: 'gray'}}>{summary.maxDeltaPY.moYr}</span> =&gt;&nbsp; 
+                                    <span className='number-font' style={{color: 'gray'}}>{summary.maxDeltaPY.max.toFixed(2)}</span>
+                                </div>
                             </div>
                         </>
                         :

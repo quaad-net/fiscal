@@ -13,7 +13,7 @@ export default function FiscalDashedLineChart(props) {
   const margin = { right: 24, ...(mobileView ? {bottom: 0, left: 0} : {})};
 
   React.useEffect(()=>{
-    const atMedia = window.matchMedia("(max-width: 750px)"); //500px
+    const atMedia = window.matchMedia("(max-width: 550px)"); //500px //750px
     setMobileView(atMedia.matches);
     
     function updateMobileView(){

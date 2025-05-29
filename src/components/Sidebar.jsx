@@ -23,22 +23,24 @@ export default function Sidebar(props){
                         </div>
                         <br/>
                         <div style={{width: 'fit-content', margin: 'auto'}}>
-                            {props.content.map((c, idx)=>{
-                                if(c.moYr !== moYr){
-                                    return(
-                                        <div  
-                                            className='sidebar-data'
-                                            key={c.moYr} 
-                                            style={{marginTop: '5px'}}>
-                                            <div >
-                                                {idx == 0 ? <span style={{color: 'white'}}>-&nbsp;</span> : <span style={{color: 'white'}}>ˇ&nbsp;</span>}
-                                                {c.moYr} | {c.monthly_total.toFixed(2)}
+                            <div>
+                                {props.content.map((c, idx)=>{
+                                    if(c.moYr !== moYr){
+                                        return(
+                                            <div  
+                                                className='sidebar-data'
+                                                key={c.moYr} 
+                                                style={{marginTop: '5px'}}>
+                                                <div className='number-font'>
+                                                    {idx == 0 ? <span style={{color: 'white'}}>-&nbsp;</span> : <span style={{color: 'white'}}>ˇ&nbsp;</span>}
+                                                    {c.moYr} | {c.monthly_total.toFixed(2)}
+                                                </div>
+                                                <Divider sx={{marginTop: '5px'}} color='rgb(22, 22, 22)'/>
                                             </div>
-                                            <Divider sx={{marginTop: '5px'}} color='rgb(22, 22, 22)'/>
-                                        </div>
-                                    )
-                                }
-                            })}
+                                        )
+                                    }
+                                })}
+                            </div>
                         </div>
                     </span>
                     <br/>

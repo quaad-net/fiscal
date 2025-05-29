@@ -17,6 +17,8 @@
     animation-duration: 0.5s;
     border-bottom-right-radius: 5px;
     overflow: hidden;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar-close{
@@ -132,4 +134,20 @@ input{
     top: 75px;
     box-sizing: border-box;
     height: 1px;
+}
+
+@media (max-height:800px){
+
+    .dataset-wrapper{
+        padding: 5px;
+        height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-color: white rgb(32, 32, 32);
+        scrollbar-width: thin;
+        border: 1px solid white;
+        border-radius: 2px;
+        background-color: rgb(22, 22, 22);
+    }   
+    
 }

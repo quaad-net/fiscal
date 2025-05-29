@@ -4,37 +4,10 @@ import { useState, useEffect } from 'react';
 import AuxModal from './AuxModal';
 import FiscalDashedLineChart from './FiscalDashedLineChart';
 import FiscalPieChart from './FiscalPieChart';
+import { monthMap, reverseMonthMap } from '../../app/monthMaps';
 const proxyUrl = import.meta.env.VITE_PROXY_URL;
 
 import './Fiscal.css';
-
-const monthMap = new Map();
-monthMap.set(1, 'jan')
-monthMap.set(2, 'feb')
-monthMap.set(3, 'mar')
-monthMap.set(4, 'apr')
-monthMap.set(5, 'may')
-monthMap.set(6, 'jun')
-monthMap.set(7, 'jul')
-monthMap.set(8, 'aug')
-monthMap.set(9, 'sep')
-monthMap.set(10, 'oct')
-monthMap.set(11, 'nov')
-monthMap.set(12, 'dec')
-
-const reverseMonthMap = new Map();
-reverseMonthMap.set('jan', 1)
-reverseMonthMap.set('feb', 2)
-reverseMonthMap.set('mar', 3 )
-reverseMonthMap.set('apr', 4)
-reverseMonthMap.set('may', 5)
-reverseMonthMap.set('jun', 6)
-reverseMonthMap.set('jul', 7)
-reverseMonthMap.set('aug', 8)
-reverseMonthMap.set('sep', 9)
-reverseMonthMap.set('oct', 10)
-reverseMonthMap.set('nov', 11)
-reverseMonthMap.set('dec', 12)
 
 const download = (data, filename) => {
     const blob = new Blob([data], { type: 'text/csv' });
@@ -588,11 +561,11 @@ export default function Fiscal(props){
                 backgroundColor: 'rgb(22, 22, 22)', 
                 borderRadius: '2px', 
                 paddingTop: '5px', 
-                paddingBottom: '100px', 
+                paddingBottom: '50px', 
                 paddingLeft: '10px', 
                 paddingRight: '10px',
                 minWidth: '275px',
-                overflowX: 'auto'    
+                overflowX: 'auto',              
             }}
         >      
             <div className="main-title" style={{marginLeft: 0, paddingLeft: 0}}>
@@ -616,7 +589,7 @@ export default function Fiscal(props){
                                     </div><br/><br/>
                                     <div>
                                         <i>
-                                            Click any mark on the either line on the line graph 
+                                            Click any mark on the line graph 
                                             to view department data for the corresponding month.
                                         </i>
                                     </div>
@@ -667,12 +640,12 @@ export default function Fiscal(props){
                         <>
                             <span style={{fontWeight: 'bold'}}>▫&nbsp;Summary</span>
                             <div style={{paddingLeft: '20px'}}>
-                                <div>min: <span style={{color: 'gray'}}>{summary?.min.toFixed(2)}</span></div>
-                                <div>max: <span style={{color: 'gray'}}>{summary?.max.toFixed(2)}</span></div>
-                                <div>minDeltaPM: <span style={{color: 'gray'}}>{summary.minDeltaPM.moYr}</span> =&gt; <span style={{color: 'gray'}}>{summary.minDeltaPM.min.toFixed(2)}</span></div>
-                                <div>minDeltaPY: <span style={{color: 'gray'}}>{summary.minDeltaPY.moYr}</span> =&gt; <span style={{color: 'gray'}}>{summary.minDeltaPY.min.toFixed(2)}</span></div>
-                                <div>maxDeltaPM: <span style={{color: 'gray'}}>{summary.maxDeltaPM.moYr}</span> =&gt; <span style={{color: 'gray'}}>{summary.maxDeltaPM.max.toFixed(2)}</span></div>
-                                <div>maxDeltaPY: <span style={{color: 'gray'}}>{summary.maxDeltaPY.moYr}</span> =&gt; <span style={{color: 'gray'}}>{summary.maxDeltaPY.max.toFixed(2)}</span></div>
+                                <div>min: <span className='number-font' style={{color: 'gray'}}>{summary?.min.toFixed(2)}</span></div>
+                                <div>max: <span className='number-font' style={{color: 'gray'}}>{summary?.max.toFixed(2)}</span></div>
+                                <div>minDeltaPM: <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPM.moYr}</span> =&gt; <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPM.min.toFixed(2)}</span></div>
+                                <div>minDeltaPY: <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPY.moYr}</span> =&gt; <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPY.min.toFixed(2)}</span></div>
+                                <div>maxDeltaPM: <span className='number-font'style={{color: 'gray'}}>{summary.maxDeltaPM.moYr}</span> =&gt; <span className='number-font'style={{color: 'gray'}}>{summary.maxDeltaPM.max.toFixed(2)}</span></div>
+                                <div>maxDeltaPY: <span className='number-font' style={{color: 'gray'}}>{summary.maxDeltaPY.moYr}</span> =&gt; <span className='number-font' style={{color: 'gray'}}>{summary.maxDeltaPY.max.toFixed(2)}</span></div>
                             </div>
                         </>
                         :
@@ -726,7 +699,7 @@ export default function Fiscal(props){
                             <img className="helper-icon" id="hlpr-g2-2" src= '/info.svg' width='25px' onClick={()=>{
                                 setModalContent(
                                     <i>
-                                        Click any mark on the either line on the line graph 
+                                        Click any mark on the line graph 
                                         to view department data for the corresponding month.
                                     </i>
                                 )
@@ -746,11 +719,12 @@ export default function Fiscal(props){
                             pieChartData.map((data, index)=>{
                                 const [dept, deptPerct] = data.label.split(' ');
                                 const delta = (( data.value - compareTo[dept]  ) / data.value).toFixed(2) ;
+                                // Excludes departments outside of the top 8 in total expenditures.
                                 if(index < 8 ){
                                     return(
                                         <span style={{color: 'gray'}} key={index}>
-                                            <div className='field-value'><img src='/tree-structure.png' width='15px'/>{dept}</div>
-                                            <div>{data.value.toFixed(2)} | {deptPerct} | {delta}</div>
+                                            <div className='field-value'><img src='/double-right-arrow.png' width='15px'/>{dept}</div>
+                                            <div className='number-font'>{data.value.toFixed(2)} | {deptPerct} | {delta}</div>
                                         </span>
                                     )
                                 }

@@ -13,7 +13,7 @@
     background-color:rgb(23, 23, 54);
     animation-name: slide-left;
     animation-duration: 0.5s;
-   
+    border-radius: 0 0 5px 5px;
 }
 
 .mb-icon-menu:hover{
@@ -46,12 +46,6 @@
 .mb-tab-btn:focus{
     background-color: rgb(102, 1, 1);
     cursor: pointer;
-}
-
-.core-items{
-    max-width: 75%;
-    margin: auto;
-    padding-left: 35px;
 }
 
 .main-title{
@@ -102,25 +96,13 @@
     background: linear-gradient(180deg, rgb(102, 1, 1), rgb(54, 0, 0));
 }
 
-@media(max-width:500px){
-    .core-items{
-        margin-left: 0;
-    }
+.number-font{
+    font-family: 'Times New Roman', Times, serif;
+}
 
+@media(max-width:500px){
     .main-title{
         text-align: center;
     }
 }
 
-/* Wraps potentially overflowing content in Sidebar */
-@media (max-height:800px){
-
-    .dataset-wrapper{
-        height: 100px;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        scrollbar-color: white rgb(32, 32, 32);
-        scrollbar-width: thin;
-    }
-    
-}

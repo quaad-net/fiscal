@@ -1,13 +1,9 @@
 import { useState } from 'react';
-
 import Fiscal from './components/Fiscal';
-import Sidebar from './components/Sidebar';
-
 import './App.css'
 
 function App() {
   const [displaySidebar, setDisplaySidebar] = useState(false);
-  const [sideBarContent, setSideBarContent] = useState([]);
 
   return (
     <>
@@ -18,11 +14,7 @@ function App() {
             </span>
         </div>
         <div className="core">
-            <Sidebar displaySidebar={displaySidebar} setDisplaySidebar={setDisplaySidebar} content={sideBarContent}/>
-            <div className="core-items">
-              <Fiscal setSideBarContent={setSideBarContent}/>
-            </div>
-            <div className= "right-sidebar"></div>
+            <Fiscal displaySidebar={displaySidebar} setDisplaySidebar={setDisplaySidebar}/>
         </div>
     </>
   )

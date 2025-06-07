@@ -90,27 +90,22 @@ input{
     text-transform: none;
     text-indent: 0px;
     text-shadow: none;
-    text-align: start;
+    text-align: center;
     appearance: auto;
     cursor: text;
-    margin: 0em;
-    padding: 1px 0px;
+    padding: 0;
+    padding-right: 5px;
+    margin: 0;
     border: 0;
     border-radius: 5px;
     background-color: rgb(32, 32, 32);
-    padding-block: 1px;
-    padding-inline: 2px;
-    padding-left: 3px;
     color: white;
     height: 35px;
-    margin-bottom: 2px;
+    width: 50px;
 }
 
-#input-1, #input-2{
-    padding-right: 25px;
-    background-color: rgb(32, 32, 32);
-    width: 50px;
-    margin-left: 65px;
+#input-1{
+    margin-left: 80px;
 }
 
 #input-1:focus, #input-2:focus{
@@ -118,7 +113,7 @@ input{
 }
 
 ::placeholder{
-    color:white;
+    color:gray;
 }
 
 .sidebar-data{
@@ -126,7 +121,8 @@ input{
 }
 
 .sidebar-data:hover{
-    color: white
+    color: white;
+    cursor: pointer;
 }
 
 .hidden{

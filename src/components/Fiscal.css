@@ -1,9 +1,12 @@
-.utility-btn{
-    all: unset;
+/* -------------Misc------------- */
+
+.alter-view:hover{
+    cursor: pointer;
 }
 
-.utility-btn:hover, .utility-btn:focus{
+.download:hover{
     cursor: pointer;
+    background-color: rgb(33, 33, 33);
 }
 
 .helper-icon:hover{
@@ -13,10 +16,15 @@
     cursor: pointer;
 }
 
-.download:hover{
-    cursor: pointer;
-    background-color: rgb(33, 33, 33);
+.utility-btn{
+    all: unset;
 }
+
+.utility-btn:hover, .utility-btn:focus{
+    cursor: pointer;
+}
+
+/* -------------Layout------------- */
 
 .g1{
     position: relative;
@@ -143,74 +151,6 @@
     margin-left: 10px;
 }
 
-.additional-data{
-    display: flex;
-    flex-direction: row;
-}
-
-.additional-data-title{
-    font-weight: bold;
-    flex: 0.5;
-    padding: 5px;
-}
-
-#hlpr-additional-data{
-    display: block;
-}
-
-.additional-data-data-groups{
-    width: 100%;
-    text-align: center;
-    flex: 3.5;
-}
-
-.additional-data-group{
-    font-weight: bold;
-}
-
-.additional-data-group-1{
-    display: flex;
-    flex-direction: row;
-}
-
-#ad-1-1, #ad-1-2{
-    box-sizing: border-box;
-    flex: 1;
-    width: 50%;
-    max-width: 50%;
-    height: 100px;
-    border: 2px solid rgb(78, 78, 78);
-    border-radius: 5px;
-    margin: 5px;
-    padding-top: 35px;
-
-}
-
-.additional-data-group-2{
-    display: flex;
-    flex-direction: row;
-}
-
-#ad-2-1, #ad-2-2, #ad-2-3{
-    box-sizing: border-box;
-    flex: 1;
-    width: calc(100/3);
-    max-width: calc(100/3);
-    height: 100px;
-    border: 2px solid rgb(78, 78, 78);
-    border-radius: 5px;
-    margin: 5px;
-    padding-top: 35px;
-}
-
-#ad-1-1:hover, 
-#ad-1-2:hover, 
-#ad-2-1:hover, 
-#ad-2-2:hover, 
-#ad-2-3:hover{
-    border-width: 3px;
-    cursor: pointer;
-}
 
 @media(max-width:1000px) {
 

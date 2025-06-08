@@ -636,7 +636,6 @@ export default function Fiscal(props){
                     const delChtDataPY = [];
                     const delChtXLbls = [];
                     let p1Ttl = 0;
-                    console.log(dTbl)
                     dTbl.map((val, idx)=>{
                         // Skips records where deltaPM has not been calculated or data is incomplete
                         // (located at start and end points of the graph).
@@ -790,10 +789,15 @@ export default function Fiscal(props){
                 <div>Expenditures</div>
                 <div className="subtitle">11-mo</div>
                 {scenarioMod || pieChartData.length > 1 ? <br/> : <></>}
-                {scenarioMod ? <div className='number-font' style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>Scen: {perctScenMod > 0 ? '+' + perctScenMod : perctScenMod}</div> : <></>}
-                {pieChartData.length > 1 ? <div className='number-font' style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>{piePeriod != '' ? `Dept Details: ${piePeriod} ${monthMap.get(pieMonth) == undefined ? '' : monthMap.get(pieMonth)}` : <></>}</div> : <></>}
+                {scenarioMod ? <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>Scen: <span className='number-font'>{perctScenMod > 0 ? '+' + perctScenMod : perctScenMod}</span></div> : <></>}
+                {pieChartData.length > 1 ? 
+                <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>
+                    {piePeriod != '' ? `Details: ${piePeriod} ${monthMap.get(pieMonth) == undefined ? '' : monthMap.get(pieMonth)}` : <></>}
+                </div> 
+                : <></>
+                }
             </div>
-            {mobileView ? <></> : <div style={{marginTop: '10px'}}>--------</div>} 
+            {mobileView ? <></> : <br/>} 
             <div style={{float: 'left'}}>
                 <button className='utility-btn'>
                         <img className="helper-icon" src= '/info.svg' width='25px' onClick={()=>{
@@ -816,9 +820,6 @@ export default function Fiscal(props){
                                             to view department data for the corresponding month.
                                         </i>
                                         <br/><br/>
-                                        <i>
-                                            Dept. Details includes the current month's data &#40;which is not shown on line chart&#41;.
-                                        </i>
                                     </div>
                                 </div>
                             )
@@ -829,6 +830,8 @@ export default function Fiscal(props){
                     onClick={()=>{
                         setModalContent(
                             <div>
+                                <br/>
+                                <div><i>Original PO line items.</i></div><br/>
                                 <div style={{marginBottom:'5px', marginTop: '5px'}}><strong>p1</strong>=&gt; 
                                     <span className='download' style={{color: 'rgb(83, 83, 245)'}}
                                         onClick={()=>{downloadDataset('uwm_purchaseHist12Mo')}}
@@ -846,7 +849,7 @@ export default function Fiscal(props){
                         setModalOpen(true);
                     }}
                 >
-                        <img src='/grid.svg' width='25px' />
+                        <img src='/spreadsheet.svg' width='25px' />
                 </button>
             </div>
             <br/>
@@ -867,7 +870,7 @@ export default function Fiscal(props){
                         <>
                             <div style={{display: mobileView ? 'block' : 'flex'}}>
                                 <div>
-                                    <span style={{fontWeight: 'bold'}}>▫&nbsp;Summary</span>
+                                    <span style={{fontWeight: 'bold'}}>▫&nbsp;P1 Summary</span>
                                     <div style={{paddingLeft: '20px'}}>
                                         <div>total: <span className='number-font' style={{color: 'gray'}}>{p1Total.toFixed(2)}</span></div>
                                         <div>min: <span className='number-font' style={{color: 'gray'}}>{summary?.min.toFixed(2)}</span></div>

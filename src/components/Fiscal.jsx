@@ -660,10 +660,11 @@ export default function Fiscal(props){
                     setDeltaChartDataPY(delChtDataPY);
                     setDeltaChartXLabels(delChtXLbls);
                     setP1Total(p1Ttl);
+                    if(perctMod){setScenarioMod(true); setPerctScenMod(perctMod)}
+                    else{setScenarioMod(false); setPerctScenMod(null)}
+                    document.querySelector('#input-1').value = ''
                 })
                 .catch((err)=>{console.log(err)})
-                if(perctMod){setScenarioMod(true); setPerctScenMod(perctMod)}
-                else{setScenarioMod(false); setPerctScenMod(null)}
                 }
             catch(err){
                 console.log(err)
@@ -789,7 +790,7 @@ export default function Fiscal(props){
                 <div>Expenditures</div>
                 <div className="subtitle">11-mo</div>
                 {scenarioMod || pieChartData.length > 1 ? <br/> : <></>}
-                {scenarioMod ? <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>Scen: <span className='number-font'>{perctScenMod > 0 ? '+' + perctScenMod : perctScenMod}</span></div> : <></>}
+                {scenarioMod ? <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>Scen: <span className='number-font'>{perctScenMod}</span></div> : <></>}
                 {pieChartData.length > 1 ? 
                 <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>
                     {piePeriod != '' ? `Details: ${piePeriod} ${monthMap.get(pieMonth) == undefined ? '' : monthMap.get(pieMonth)}` : <></>}
@@ -806,14 +807,15 @@ export default function Fiscal(props){
                                     <div>
                                         <strong>p1</strong>: Most recent 11 month period. <br/>
                                         <strong>p2</strong>: Prior 11 month period.
-                                    </div><br/><br/>
+                                    </div><br/>
                                     <div>
                                         <strong>deltaPM:</strong> Calculated based on the previous month. <br/><br/>
                                         <strong>deltaPY:</strong> Calculated based on the same month of the the previus year.
-                                    </div><br/><br/>
+                                    </div><br/>
                                     <div>
-                                        <strong>Scenarios:</strong> Calculated based on the original data points and do not accumulate.
-                                    </div><br/><br/>
+                                        <strong>Scenarios:</strong> Recalculates data based on the chosen percentage increase or decrease <br/>
+                                        of overall spending. Does not accumulate.
+                                    </div><br/>
                                     <div>
                                         <i>
                                             Click any mark on the line graph 
@@ -917,12 +919,12 @@ export default function Fiscal(props){
                                                         style={{paddingLeft: '20px'}}  
                                                         key={c.moYr} 
                                                     >
-                                                        <span className='number-font'>
-                                                            <span>-&nbsp;</span>
+                                                        <div style={{marginBottom: '10px', marginTop: '5px'}} className='number-font'>
+                                                            <span>○&nbsp;</span>
                                                             {c.moYr}: <span style={{color: 'gray'}}>{c.monthly_total.toFixed(2)}</span>
-                                                            &nbsp;| deltaPM: <span style={{color: 'gray'}}>{c.deltaCompPrevMo.toFixed(2)} </span>
-                                                            &nbsp;| deltaPY: <span style={{color: 'gray'}}>{c.deltaCompPrevYrMo.toFixed(2)} </span>
-                                                        </span>
+                                                            &nbsp;○ deltaPM: <span style={{color: 'gray'}}>{c.deltaCompPrevMo.toFixed(2)} </span>
+                                                            &nbsp;○ deltaPY: <span style={{color: 'gray'}}>{c.deltaCompPrevYrMo.toFixed(2)} </span>
+                                                        </div>
                                                         <Divider sx={{backgroundColor: 'gray'}}/>
                                                     </div>
                                                 )

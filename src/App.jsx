@@ -13,7 +13,7 @@ function App() {
             <span className="header-tabs">
             </span>
         </div>
-        <div className="core">
+        <div className="core" style={{maxWidth: '1050px', margin: 'auto'}}>
             <Fiscal displaySidebar={displaySidebar} setDisplaySidebar={setDisplaySidebar}/>
         </div>
     </>

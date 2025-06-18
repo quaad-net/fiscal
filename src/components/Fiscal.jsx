@@ -789,18 +789,20 @@ export default function Fiscal(props){
             <div className="main-title" style={{marginLeft: 0, paddingLeft: 0}}>
                 <div>Expenditures</div>
                 <div className="subtitle">11-mo</div>
-                {scenarioMod || pieChartData.length > 1 ? <br/> : <></>}
+                {scenarioMod || pieChartData.length > 1 ? <></> : <></>}
                 {scenarioMod ? <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>Scen: <span className='number-font'>{perctScenMod}</span></div> : <></>}
                 {pieChartData.length > 1 ? 
                 <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>
-                    {piePeriod != '' ? `Details: ${piePeriod} ${monthMap.get(pieMonth) == undefined ? '' : monthMap.get(pieMonth)}` : <></>}
+                    {piePeriod != '' ? `Dept: ${piePeriod} ${monthMap.get(pieMonth) == undefined ? '' : monthMap.get(pieMonth)}` : <></>}
                 </div> 
                 : <></>
                 }
             </div>
-            {mobileView ? <></> : <br/>} 
-            <div style={{float: 'left'}}>
-                <button className='utility-btn'>
+            <div 
+                style={mobileView ? {width: 'fit-content', margin: 'auto'} : {width: 'fit-content'}}
+            
+            >
+                <button className='utility-btn' style={{marginRight: '10px'}}>
                         <img className="helper-icon" src= '/info.svg' width='25px' onClick={()=>{
                             setModalContent(
                                 <div>
@@ -827,7 +829,7 @@ export default function Fiscal(props){
                             )
                             setModalOpen(true);
                             }}/>
-                </button><br/>
+                </button>
                 <button className='utility-btn' 
                     onClick={()=>{
                         setModalContent(
@@ -854,7 +856,6 @@ export default function Fiscal(props){
                         <img src='/spreadsheet.svg' width='25px' />
                 </button>
             </div>
-            <br/>
             <div className="g1-container">
                 <div className="g1" id="g1-1">
                     <div className= "g1-chart-container-1" style={{marginBottom: mobileView ? '50px' : '10px', marginTop: '50px'}}>

@@ -10,7 +10,7 @@
   --modal-background: rgba(0, 0, 0, 0.777);
   --modal-background-lighter: rgba(11, 11, 11, 0.4);
   --category-values: rgb(179, 179, 179);
-  background-color: rgb(32, 32, 32);
+  background-color: rgb(25, 25, 25) !important;
   color: white;
   font-family: Georgia, 'Times New Roman', Times, serif;
 }

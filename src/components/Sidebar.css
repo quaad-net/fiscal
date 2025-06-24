@@ -116,13 +116,13 @@ input{
     color:gray;
 }
 
-.sidebar-data{
-    color: gray
+.sidebar-data:hover{
+    color: rgb(211, 211, 211);
+    cursor: pointer;
 }
 
-.sidebar-data:hover{
-    color: white;
-    cursor: pointer;
+.active{
+    color: white
 }
 
 .hidden{

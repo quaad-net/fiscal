@@ -58,6 +58,7 @@ export default function Fiscal(props){
     const [modalOpen, setModalOpen] = useState(false);
     const [perctScenMod, setPerctScenMod] = useState(null);
     const [scenarioMod, setScenarioMod] = useState(false);
+    const [sideBarActive, setSideBarActive]  = useState(null);
 
     // Line chart data
     const [lineChartData, setLineChartData] = useState([]);
@@ -691,49 +692,88 @@ export default function Fiscal(props){
                         <div style={{width: 'fit-content', margin: 'auto'}}>
                             <div>
                                 <div  
-                                    style={{marginTop: '5px'}}
+                                    style={{marginTop: '5px', color: 'gray'}}
                                 >
                                     <div>
                                         <span 
-                                            onClick={()=>{setLineChartData([]); getExpenditures(-.05); getDeptExpendituresbyMonth('Latest', 0, 0, -.05)}} 
-                                            className='number-font sidebar-data'>↓5%
+                                            onClick={()=>{
+                                                setLineChartData([]); 
+                                                getExpenditures(-.05); 
+                                                getDeptExpendituresbyMonth('Latest', 0, 0, -.05);
+                                                setSideBarActive('-.05')
+                                            }} 
+                                            className={`number-font sidebar-data ${sideBarActive == '-.05' ? 'active' : ''}`}>↓5%
                                         </span>&nbsp;&nbsp;
                                         <span 
-                                            onClick={()=>{setLineChartData([]); getExpenditures(.05); getDeptExpendituresbyMonth('Latest', 0, 0, .05)}} 
-                                            className='number-font sidebar-data'>↑5%
+                                            onClick={()=>{
+                                                setLineChartData([]); 
+                                                getExpenditures(.05); 
+                                                getDeptExpendituresbyMonth('Latest', 0, 0, .05);
+                                                setSideBarActive('.05')
+                                            }} 
+                                            className={`number-font sidebar-data ${sideBarActive == '.05' ? 'active' : ''}`}>↑5%
                                         </span>
                                     </div>
                                     <Divider sx={{marginTop: '10px'}} color='rgb(22, 22, 22)'/>
                                     <div>
                                         <span
-                                             onClick={()=>{setLineChartData([]); getExpenditures(-.1); getDeptExpendituresbyMonth('Latest', 0, 0, -.1)}} 
-                                             className='number-font sidebar-data'>↓10%
+                                             onClick={()=>{setLineChartData([]); 
+                                                getExpenditures(-.1); 
+                                                getDeptExpendituresbyMonth('Latest', 0, 0, -.1);
+                                                setSideBarActive('-.1')
+                                            }} 
+                                             className={`number-font sidebar-data ${sideBarActive == '-.1' ? 'active' : ''}`}>↓10%
                                         </span>&nbsp;&nbsp;
                                         <span 
-                                            onClick={()=>{setLineChartData([]); getExpenditures(.1); getDeptExpendituresbyMonth('Latest', 0, 0, .1)}} 
-                                            className='number-font sidebar-data'>↑10%
+                                            onClick={()=>{
+                                                setLineChartData([]); 
+                                                getExpenditures(.1); 
+                                                getDeptExpendituresbyMonth('Latest', 0, 0, .1);
+                                                setSideBarActive('.1')
+                                            }} 
+                                            className={`number-font sidebar-data ${sideBarActive == '.1' ? 'active' : ''}`}>↑10%
                                         </span>
                                     </div>
                                     <Divider sx={{marginTop: '10px'}} color='rgb(22, 22, 22)'/>
                                     <div>
                                         <span 
-                                            onClick={()=>{setLineChartData([]); getExpenditures(-.15); getDeptExpendituresbyMonth('Latest', 0, 0, -.15)}} 
-                                            className='number-font sidebar-data'>↓15%
+                                            onClick={()=>{
+                                                setLineChartData([]); 
+                                                getExpenditures(-.15); 
+                                                getDeptExpendituresbyMonth('Latest', 0, 0, -.15);
+                                                setSideBarActive('-.15')
+                                            }} 
+                                            className={`number-font sidebar-data ${sideBarActive == '-.15' ? 'active' : ''}`}>↓15%
                                         </span>&nbsp;&nbsp;
                                         <span 
-                                            onClick={()=>{setLineChartData([]); getExpenditures(.15); getDeptExpendituresbyMonth('Latest', 0, 0, .15)}} 
-                                            className='number-font sidebar-data'>↑15%
+                                            onClick={()=>{
+                                                setLineChartData([]); 
+                                                getExpenditures(.15); 
+                                                getDeptExpendituresbyMonth('Latest', 0, 0, .15);
+                                                setSideBarActive('.15')
+                                            }} 
+                                            className={`number-font sidebar-data ${sideBarActive == '.15' ? 'active' : ''}`}>↑15%
                                         </span>
                                     </div>
                                     <Divider sx={{marginTop: '10px'}} color='rgb(22, 22, 22)'/>
                                     <div>
                                         <span 
-                                            onClick={()=>{setLineChartData([]); getExpenditures(-.20); getDeptExpendituresbyMonth('Latest', 0, 0, -.20)}} 
-                                            className='number-font sidebar-data'>↓20%
+                                            onClick={()=>{
+                                                setLineChartData([]); 
+                                                getExpenditures(-.20); 
+                                                getDeptExpendituresbyMonth('Latest', 0, 0, -.20);
+                                                setSideBarActive('-.20')
+                                            }} 
+                                            className={`number-font sidebar-data ${sideBarActive == '-.20' ? 'active' : ''}`}>↓20%
                                         </span>&nbsp;&nbsp;
                                         <span 
-                                            onClick={()=>{setLineChartData([]); getExpenditures(.20); getDeptExpendituresbyMonth('Latest', 0, 0, .20)}} 
-                                            className='number-font sidebar-data'>↑20%
+                                            onClick={()=>{
+                                                setLineChartData([]); 
+                                                getExpenditures(.20); 
+                                                getDeptExpendituresbyMonth('Latest', 0, 0, .20);
+                                                setSideBarActive('.20')
+                                            }} 
+                                            className={`number-font sidebar-data ${sideBarActive == '.20' ? 'active' : ''}`}>↑20%
                                         </span>
                                     </div>
                                     <Divider sx={{marginTop: '10px'}} color='rgb(22, 22, 22)'/>
@@ -761,6 +801,7 @@ export default function Fiscal(props){
                     <button type="button" className='aux-btn' style={{marginLeft: '90px'}} onClick={()=>{
                         getExpenditures();
                         getDeptExpendituresbyMonth('Latest', 0, 0);
+                        setSideBarActive('');
                     }}>Reset
                     </button>
                     </>
@@ -811,8 +852,8 @@ export default function Fiscal(props){
                                         <strong>p2</strong>: Prior 11 month period.
                                     </div><br/>
                                     <div>
-                                        <strong>deltaPM:</strong> Calculated based on the previous month. <br/><br/>
-                                        <strong>deltaPY:</strong> Calculated based on the same month of the the previus year.
+                                        <strong>ΔPM:</strong> Calculated based on the previous month. <br/><br/>
+                                        <strong>ΔPY:</strong> Calculated based on the same month of the the previus year.
                                     </div><br/>
                                     <div>
                                         <strong>Scenarios:</strong> Recalculates data based on the chosen percentage increase or decrease <br/>
@@ -878,19 +919,19 @@ export default function Fiscal(props){
                                         <div>total: <span className='number-font' style={{color: 'gray'}}>{p1Total.toFixed(2)}</span></div>
                                         <div>min: <span className='number-font' style={{color: 'gray'}}>{summary?.min.toFixed(2)}</span></div>
                                         <div>max: <span className='number-font' style={{color: 'gray'}}>{summary?.max.toFixed(2)}</span></div>
-                                        <div>minDeltaPM:&nbsp;
+                                        <div>minΔPM:&nbsp;
                                             <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPM.moYr}</span> =&gt;&nbsp;
                                             <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPM.min.toFixed(2)}</span>
                                         </div>
-                                        <div>minDeltaPY:&nbsp;
+                                        <div>minΔPY:&nbsp;
                                             <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPY.moYr}</span> =&gt;&nbsp;
                                             <span className='number-font' style={{color: 'gray'}}>{summary.minDeltaPY.min.toFixed(2)}</span>
                                         </div>
-                                        <div>maxDeltaPM:&nbsp; 
+                                        <div>maxΔPM:&nbsp; 
                                             <span className='number-font'style={{color: 'gray'}}>{summary.maxDeltaPM.moYr}</span> =&gt;&nbsp; 
                                             <span className='number-font'style={{color: 'gray'}}>{summary.maxDeltaPM.max.toFixed(2)}</span>
                                         </div>
-                                        <div>maxDeltaPY:&nbsp; 
+                                        <div>maxΔPY:&nbsp; 
                                             <span className='number-font' style={{color: 'gray'}}>{summary.maxDeltaPY.moYr}</span> =&gt;&nbsp; 
                                             <span className='number-font' style={{color: 'gray'}}>{summary.maxDeltaPY.max.toFixed(2)}</span>
                                         </div>
@@ -923,8 +964,8 @@ export default function Fiscal(props){
                                                         <div style={{marginBottom: '10px', marginTop: '5px'}} className='number-font'>
                                                             <span>○&nbsp;</span>
                                                             {c.moYr}: <span style={{color: 'gray'}}>{c.monthly_total.toFixed(2)}</span>
-                                                            &nbsp;○ deltaPM: <span style={{color: 'gray'}}>{c.deltaCompPrevMo.toFixed(2)} </span>
-                                                            &nbsp;○ deltaPY: <span style={{color: 'gray'}}>{c.deltaCompPrevYrMo.toFixed(2)} </span>
+                                                            &nbsp;○ ΔPM: <span style={{color: 'gray'}}>{c.deltaCompPrevMo.toFixed(2)} </span>
+                                                            &nbsp;○ ΔPY: <span style={{color: 'gray'}}>{c.deltaCompPrevYrMo.toFixed(2)} </span>
                                                         </div>
                                                         <Divider sx={{backgroundColor: 'gray'}}/>
                                                     </div>
@@ -936,7 +977,7 @@ export default function Fiscal(props){
                                 <div>
                                     {mobileView ? <div>&nbsp;</div> : <></>}
                                     <span style={{fontWeight: 'bold', paddingLeft: '20px'}}>▫&nbsp;
-                                        Delta |
+                                        Δ |
                                         <span 
                                             className='alter-view'
                                             onClick={()=>{setDeltaChartView('PM')}}
@@ -1028,7 +1069,7 @@ export default function Fiscal(props){
                 <div className="g2-2-table">
                     {pieChartData.length > 0 ?
                     <>
-                        <div style={{color: 'rgb(81, 81, 81)'}}>&nbsp;total &lt;desc&gt;| perct | deltaPM </div>
+                        <div style={{color: 'rgb(81, 81, 81)'}}>&nbsp;total &lt;desc&gt;| perct | ΔPM </div>
                         {
                             pieChartData.map((data, index)=>{
                                 const [dept, deptPerct] = data.label.split(' ');

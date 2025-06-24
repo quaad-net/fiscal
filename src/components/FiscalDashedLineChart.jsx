@@ -37,8 +37,8 @@ export default function FiscalDashedLineChart(props) {
 
       <LineChart
         loading={props.lineChartData.length == 0}
-        height={mobileView ? 250: 325} //325
-        width={mobileView ? 275 : 500} // 500
+        height={mobileView ? 275 : 325}
+        width={mobileView ? 275 : 500}
         // series={[
         //   { data: [], label: 'string', id: 'string' }, 
         //   { data: [], label: 'string', id: 'string' }, 

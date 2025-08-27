@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 import Divider from '@mui/material/Divider';
 import { purplePalette, pinkPaletteDark} from '@mui/x-charts/colorPalettes';
-
 import AuxModal from './AuxModal';
+import BasicLineChart from './BasicLineChart';
 import FiscalDashedLineChart from './FiscalDashedLineChart';
 import FiscalPieChart from './FiscalPieChart';
 import { monthMap, reverseMonthMap } from '../../app/monthMaps';
@@ -59,6 +59,7 @@ export default function Fiscal(props){
     const [perctScenMod, setPerctScenMod] = useState(null);
     const [scenarioMod, setScenarioMod] = useState(false);
     const [sideBarActive, setSideBarActive]  = useState(null);
+    const [topPurchases, setTopPurchases] = useState([]);
 
     // Line chart data
     const [lineChartData, setLineChartData] = useState([]);
@@ -80,6 +81,10 @@ export default function Fiscal(props){
     const [deltaChartDataPY, setDeltaChartDataPY] = useState([]);
     const [deltaChartXLabels, setDeltaChartXLabels] = useState([]);
     const [deltaChartView, setDeltaChartView] = useState('PM');
+
+    // Basic line chart data
+    const [basicLineX, setBasicLineX] = useState([]);
+    const [basicLineSeries, setBasicLineSeries] = useState([]);
 
     useEffect(()=>{
         const atMedia = window.matchMedia("(max-width: 500px)");
@@ -580,33 +585,33 @@ export default function Fiscal(props){
                     setP1Data({dateVals: p1DateVals});
                     setP2Data({dateVals: p2DateVals});
 
-                    // Simple forecast for the current month (which is the next/latest month on the chart).
-                    // Uses last years data of the same month.
-                    const nextMoForecast = [];
-                    xLabels.forEach((val, idx)=>{
-                        if(idx != xLabels.length - 1){
-                            nextMoForecast.push(null)
-                        }
-                        else{
-                            // Add the previous month's data.
-                            nextMoForecast.push(p1DateVals[`${curMo-1}-${dt.getFullYear()}`])
-                        }
-                    })
-                    if(p1DateVals[`${curMo}-${dt.getFullYear() - 1}`] != undefined){
-                        nextMoForecast.push(p1DateVals[`${curMo}-${dt.getFullYear() - 1}`])
-                    }
-                    else if(p2DateVals[`${curMo}-${dt.getFullYear() - 1}`] != undefined){
-                        nextMoForecast.push(p2DateVals[`${curMo}-${dt.getFullYear() - 1}`])
-                    }
-                    // Add forecast month
-                    xLabels.push(monthMap.get(curMo));
+                    // // Simple forecast for the current month (which is the next/latest month on the chart).
+                    // // Uses last years data of the same month.
+                    // const nextMoForecast = [];
+                    // xLabels.forEach((val, idx)=>{
+                    //     if(idx != xLabels.length - 1){
+                    //         nextMoForecast.push(null)
+                    //     }
+                    //     else{
+                    //         // Add the previous month's data.
+                    //         nextMoForecast.push(p1DateVals[`${curMo-1}-${dt.getFullYear()}`])
+                    //     }
+                    // })
+                    // if(p1DateVals[`${curMo}-${dt.getFullYear() - 1}`] != undefined){
+                    //     nextMoForecast.push(p1DateVals[`${curMo}-${dt.getFullYear() - 1}`])
+                    // }
+                    // else if(p2DateVals[`${curMo}-${dt.getFullYear() - 1}`] != undefined){
+                    //     nextMoForecast.push(p2DateVals[`${curMo}-${dt.getFullYear() - 1}`])
+                    // }
+                    // // Add forecast month
+                    // xLabels.push(monthMap.get(curMo));
 
                     setLineChartData([
                         {data: maxData, label: 'max', id: 'pMaxId', color: 'brown', type: 'line', showMark: false},
                         {data: finalYrData, label: 'p1', color: 'rgb(92, 84, 237)', id: 'p1Id', type: 'line'}, 
                         {data: finalPrevYrData, label: 'p2', color: 'gray', id: 'p2Id', type: 'line'},
                         {data: minData, label: 'min', id: 'pMinId', color: 'rgb(255, 252, 252)', type: 'line', showMark: false},
-                        {data: nextMoForecast, label: 'forecast', id: 'fcId', color: 'lightcoral', type: 'line', showMark: false}, //
+                        // {data: nextMoForecast, label: 'forecast', id: 'fcId', color: 'lightcoral', type: 'line', showMark: false},
                     ]);
                     setLineChartXLabels(xLabels);
 
@@ -664,12 +669,63 @@ export default function Fiscal(props){
                     if(perctMod){setScenarioMod(true); setPerctScenMod(perctMod)}
                     else{setScenarioMod(false); setPerctScenMod(null)}
                     document.querySelector('#input-1').value = ''
+                    getPurchFreq();
                 })
                 .catch((err)=>{console.log(err)})
                 }
             catch(err){
                 console.log(err)
             }
+    }
+
+    async function getPurchFreq(){
+        const mostFreqPurchased = [];
+        fetch(`${proxyUrl}/uwm-fs-expend/purchase-freq`)
+        .then((res)=>{return res.json()})
+        .then((res)=>{
+            const data = JSON.parse(res.data);
+            data.forEach((d, idx)=>{
+                if(idx<20){
+                    mostFreqPurchased.push(d);
+                }
+                else{return}
+            })
+        })
+        setTopPurchases(mostFreqPurchased);
+    }
+
+    async function getPurchHist(item_code){
+        await fetch(`${proxyUrl}/uwm-fs-expend/purchase-hist=${item_code}`)
+        .then((res)=>{return res.json()})
+        .then((res)=>{
+            setModalContent(<></>);
+            const data = JSON.parse(res.data);
+            const series=[
+                {
+                data: [],
+                baseline: 0,
+                showMark: false,
+                },
+            ];
+            const xAxis = [];
+            data.map((d, idx)=>{
+                series[0].data.push(Number(d.Unit_Cost.toFixed(2)));
+                xAxis.push(idx);
+            })
+
+            setBasicLineSeries(series);
+            setBasicLineX(xAxis);
+            setModalContent(
+            <>
+                <BasicLineChart series={series} xAxis={xAxis} />
+                <div className='number-font' style={{textAlign: 'center', paddingBottom: 5}}>
+                    {item_code} ▫ Unit Costs<br/> 
+                    ▫ Latest to Right.
+                </div>
+            </>
+            );
+            setModalOpen(true);
+        })
     }
 
     return(
@@ -685,8 +741,8 @@ export default function Fiscal(props){
                 <div className="field">
                     <span id= "field-items">
                         <br/>
-                        <div style={{width: 'fit-content', margin: 'auto', color: 'gray'}}>
-                            <img src='minimal-line-graph.svg' width='25px'/>&nbsp;&nbsp;Scenarios
+                        <div style={{width: 'fit-content', margin: 'auto'}}>
+                            <img src='minimal-line-graph.svg' width='15px'/>&nbsp;&nbsp;Scenarios
                         </div>
                         <br/>
                         <div style={{width: 'fit-content', margin: 'auto'}}>
@@ -783,7 +839,6 @@ export default function Fiscal(props){
                     </span>
                     <br/>
                     <div
-                        style={{marginLeft: '20px'}}
                         className="textInputWrapper"
                     >
                         <input id="input-1" placeholder="+/-0.00" type="text" className="textInput" maxLength="4"
@@ -798,15 +853,41 @@ export default function Fiscal(props){
                     {scenarioMod ? 
                     <>
                     <br/>
-                    <button type="button" className='aux-btn' style={{marginLeft: '90px'}} onClick={()=>{
+                    <button type="button" className='aux-btn' style={{marginLeft: '80px'}} onClick={()=>{
                         getExpenditures();
                         getDeptExpendituresbyMonth('Latest', 0, 0);
                         setSideBarActive('');
                     }}>Reset
                     </button>
+                    <br/><br/><br/> 
                     </>
                     :
                     <></>
+                    }
+                    {topPurchases.length>0 ?
+                        <div style={{width: 'fit-content', margin: 'auto', borderTop: '1px solid gray', paddingTop: 5}}>
+                            <div>
+                                <img src='eye.svg' width='15px'/>&nbsp;&nbsp;Watchlist
+                            </div>
+                            <br/>
+                            {topPurchases.map((d)=>{
+                                return(
+                                    <div 
+                                        key={d.PO_Item_Code}
+                                        style={{marginBottom: 10}}
+                                        className='action number-font'
+                                        onClick={()=>{
+                                            getPurchHist(d.PO_Item_Code)
+                                        }}
+                                        >
+                                            ▫&nbsp;{d.PO_Item_Code}
+                                    </div>
+
+                                )
+                            })}
+                        </div>
+                        :
+                        <></>
                     }
                 </div>
                 <div>
@@ -827,79 +908,85 @@ export default function Fiscal(props){
                 overflowX: 'auto',              
             }}
         >      
-            <div className="main-title" style={{marginLeft: 0, paddingLeft: 0}}>
-                <div>Expenditures</div>
-                <div className="subtitle">11-mo</div>
-                {scenarioMod || pieChartData.length > 1 ? <></> : <></>}
-                {scenarioMod ? <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>Scen: <span className='number-font'>{perctScenMod}</span></div> : <></>}
-                {pieChartData.length > 1 ? 
-                <div style={{color: 'gray', fontSize: '13px', fontWeight: 'normal'}}>
-                    {piePeriod != '' ? `Dept: ${piePeriod} ${monthMap.get(pieMonth) == undefined ? '' : monthMap.get(pieMonth)}` : <></>}
-                </div> 
-                : <></>
-                }
-            </div>
-            <div 
-                style={mobileView ? {width: 'fit-content', margin: 'auto'} : {width: 'fit-content'}}
-            
-            >
-                <button className='utility-btn' style={{marginRight: '10px'}}>
-                        <img className="helper-icon" src= '/info.svg' width='25px' onClick={()=>{
+            <div className="main-title" style={{display:'flex', width: 'fit-content', marginLeft: 'auto', marginRight: 'auto'}}>
+                <div 
+                    style={{width: 'fit-content', flex: .1, padding: 5, margin: 5}}
+                
+                >
+                    <button className='utility-btn'>
+                            <img className="helper-icon" src= '/info.svg' width='25px' onClick={()=>{
+                                setModalContent(
+                                    <div>
+                                        <div>
+                                            <strong>p1</strong>: Most recent 11 month period. <br/>
+                                            <strong>p2</strong>: Prior 11 month period.
+                                        </div><br/>
+                                        <div>
+                                            <strong>ΔPM:</strong> Calculated based on the previous month. <br/><br/>
+                                            <strong>ΔPY:</strong> Calculated based on the same month of the the previus year.
+                                        </div><br/>
+                                        <div>
+                                            <strong>Scenarios:</strong> Recalculates data based on the chosen percentage increase or decrease <br/>
+                                            of overall spending. Does not accumulate.
+                                        </div><br/>
+                                        <div>
+                                            <i>
+                                                Click any mark on the line graph 
+                                                to view department data for the corresponding month.
+                                            </i>
+                                            <br/><br/>
+                                        </div>
+                                    </div>
+                                )
+                                setModalOpen(true);
+                                }}/>
+                    </button>
+                    <div></div>
+                    <button className='utility-btn' 
+                        onClick={()=>{
                             setModalContent(
                                 <div>
-                                    <div>
-                                        <strong>p1</strong>: Most recent 11 month period. <br/>
-                                        <strong>p2</strong>: Prior 11 month period.
-                                    </div><br/>
-                                    <div>
-                                        <strong>ΔPM:</strong> Calculated based on the previous month. <br/><br/>
-                                        <strong>ΔPY:</strong> Calculated based on the same month of the the previus year.
-                                    </div><br/>
-                                    <div>
-                                        <strong>Scenarios:</strong> Recalculates data based on the chosen percentage increase or decrease <br/>
-                                        of overall spending. Does not accumulate.
-                                    </div><br/>
-                                    <div>
-                                        <i>
-                                            Click any mark on the line graph 
-                                            to view department data for the corresponding month.
-                                        </i>
-                                        <br/><br/>
+                                    <br/>
+                                    <div><i>PO line items.</i></div><br/>
+                                    <div style={{marginBottom:'5px', marginTop: '5px'}}><strong>p1</strong>=&gt; 
+                                        <span className='download' style={{color: 'rgb(83, 83, 245)'}}
+                                            onClick={()=>{downloadDataset('uwm_purchaseHist12Mo')}}
+                                        >&nbsp;&nbsp;Download CSV&nbsp;
+                                        </span>
+                                    </div>
+                                    <div><strong>p2</strong>=&gt;
+                                        <span className='download' style={{color: 'rgb(83, 83, 245)'}}
+                                            onClick={()=>{downloadDataset('uwm_purchaseHistLt732Gt365')}}
+                                        >&nbsp;Download CSV&nbsp;
+                                        </span>
                                     </div>
                                 </div>
                             )
                             setModalOpen(true);
-                            }}/>
-                </button>
-                <button className='utility-btn' 
-                    onClick={()=>{
-                        setModalContent(
-                            <div>
-                                <br/>
-                                <div><i>Original PO line items.</i></div><br/>
-                                <div style={{marginBottom:'5px', marginTop: '5px'}}><strong>p1</strong>=&gt; 
-                                    <span className='download' style={{color: 'rgb(83, 83, 245)'}}
-                                        onClick={()=>{downloadDataset('uwm_purchaseHist12Mo')}}
-                                    >&nbsp;&nbsp;Download CSV&nbsp;
-                                    </span>
-                                </div>
-                                <div><strong>p2</strong>=&gt;
-                                    <span className='download' style={{color: 'rgb(83, 83, 245)'}}
-                                        onClick={()=>{downloadDataset('uwm_purchaseHistLt732Gt365')}}
-                                    >&nbsp;Download CSV&nbsp;
-                                    </span>
-                                </div>
-                            </div>
-                        )
-                        setModalOpen(true);
-                    }}
-                >
-                        <img src='/spreadsheet.svg' width='25px' />
-                </button>
+                        }}
+                    >
+                            <img src='/spreadsheet.svg' width='25px' />
+                    </button>
+                </div>
+                <div style={{fontSize: 25, borderRadius: 5, borderLeft: '1px solid rgb(51, 51, 51)', borderRight: '1px solid rgb(51, 51, 51)', padding: 5, margin: 5, flex: .5}}>Expenditures
+                    <div className="subtitle">Trailing 11 mo</div>
+                </div>
+                {mobileView ? <></>
+                :
+                <>
+                <div className='title-action' style={{fontSize: 15, borderRight: '1px solid rgb(51, 51, 51)', padding: 5, margin: 5, flex: .2}}><span style={{color: 'whitesmoke'}}>Hist</span>
+                    <div className="subtitle">5 yr</div>
+                </div>
+
+                <div className='title-action' style={{fontSize: 15, borderRadius: 5, borderRight: '1px solid rgb(51, 51, 51)', padding: 5, margin: 5, flex: .2}}><span style={{color: 'whitesmoke'}}>Hist</span>
+                    <div className="subtitle">10 yr</div>
+                </div>
+                </>
+                }
             </div>
             <div className="g1-container">
                 <div className="g1" id="g1-1">
-                    <div className= "g1-chart-container-1" style={{marginBottom: mobileView ? '50px' : '10px', marginTop: '50px'}}>
+                    <div className= "g1-chart-container-1" style={{marginBottom: mobileView ? '50px' : '10px'}}>
                         <FiscalDashedLineChart lineChartData={lineChartData} xLabels={lineChartXLabels} getDeptDataOnClick={getDeptDataOnClick}/>
                     </div>
                     <div style={{
@@ -914,6 +1001,7 @@ export default function Fiscal(props){
                         <>
                             <div style={{display: mobileView ? 'block' : 'flex'}}>
                                 <div>
+                                    {mobileView ? <br/>:<></>}
                                     <span style={{fontWeight: 'bold'}}>▫&nbsp;P1 Summary</span>
                                     <div style={{paddingLeft: '20px'}}>
                                         <div>total: <span className='number-font' style={{color: 'gray'}}>{p1Total.toFixed(2)}</span></div>

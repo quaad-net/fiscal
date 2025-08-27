@@ -10,7 +10,7 @@ export default function AuxModal(props){
                 props.setModalOpen(false);
             }
         })
-        document.removeEventListener('click', (e)=>{
+        return document.removeEventListener('click', (e)=>{
             if(e.target == modal){
                 props.setModalOpen(false);
             }
@@ -24,7 +24,7 @@ export default function AuxModal(props){
                 props.setModalOpen(false);
             }
         })
-        document.removeEventListener('keydown', (e)=>{
+        return document.removeEventListener('keydown', (e)=>{
             if(e.key === 'Escape'){
                 props.setModalOpen(false);
             }

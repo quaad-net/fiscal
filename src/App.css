@@ -1,7 +1,16 @@
 @keyframes slide-left {
     from {left: 100vw;}
     to {left: 0vw;}
-  }
+}
+
+.action{
+    cursor: pointer;
+    color: gray;
+}
+
+.action:hover{
+    color: white;
+}
 
 .mobile-header{
     z-index: 1;

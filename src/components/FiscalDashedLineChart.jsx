@@ -13,7 +13,7 @@ export default function FiscalDashedLineChart(props) {
   const margin = { right: 24, ...(mobileView ? {bottom: 0, left: 0} : {})};
 
   React.useEffect(()=>{
-    const atMedia = window.matchMedia("(max-width: 550px)"); 
+    const atMedia = window.matchMedia("(max-width: 550px)"); // 
     setMobileView(atMedia.matches);
     
     function updateMobileView(){
@@ -37,7 +37,7 @@ export default function FiscalDashedLineChart(props) {
 
       <LineChart
         loading={props.lineChartData.length == 0}
-        height={mobileView ? 275 : 325}
+        height={mobileView ? 275 : 325} 
         width={mobileView ? 275 : 500}
         // series={[
         //   { data: [], label: 'string', id: 'string' }, 
@@ -91,7 +91,7 @@ export default function FiscalDashedLineChart(props) {
               vertical: 'top',
               horizontal: 'center'
             },
-            sx: {width: 'fit-content', margin: 'auto'}
+            // sx: {width: 'fit-content', margin: 'auto'}
           }
         }}
         onMarkClick={(event, id)=>{

@@ -7,6 +7,7 @@ import BasicLineChart from './BasicLineChart';
 import FiscalDashedLineChart from './FiscalDashedLineChart';
 import FiscalPieChart from './FiscalPieChart';
 import { monthMap, reverseMonthMap } from '../../app/monthMaps';
+import SparkBar from './SparkBar';
 import TinyLineChart from './TinyLineChart';
 const proxyUrl = import.meta.env.VITE_PROXY_URL;
 
@@ -125,13 +126,14 @@ export default function Fiscal(props){
                 if(key.split('-')[0] == month){moYr = key}
             })
         }
+        const piePos = document.querySelector('#g2-1-chart').getBoundingClientRect();
         if(scenarioMod){
             getDeptExpendituresbyMonth(period, month, moYr.split('-')[1], perctScenMod); 
-            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+            window.scrollTo({top: piePos.y, left: piePos.x, behavior: 'smooth'})
         }
         else{
             getDeptExpendituresbyMonth(period, month, moYr.split('-')[1])
-            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+            window.scrollTo({top: piePos.y, left: piePos.x, behavior: 'smooth'})
         }
     }
 
@@ -1231,11 +1233,18 @@ export default function Fiscal(props){
                             pieChartData.map((data, index)=>{
                                 const [dept, deptPerct] = data.label.split(' ');
                                 const delta = (( data.value - compareTo[dept]  ) / data.value).toFixed(2) ;
+   
                                 // Excludes departments outside of the top 8 in total expenditures.
                                 if(index < 8 ){
                                     return(
                                         <span style={{color: 'gray'}} key={index}>
-                                            <div className='field-value'><img src='/double-right-arrow.png' width='15px'/>{dept}</div>
+                                            <div className='field-value'><img src='/double-right-arrow.png' width='15px'/>
+                                                {dept}&nbsp;
+                                                <SparkBar
+                                                    data={[data.value.toFixed(2), ((data.value * delta) + data.value).toFixed(2)]}
+                                                    color={ delta < 0 ? 'gray' : 'lightcoral'}
+                                                />
+                                            </div>
                                             <div className='number-font'>{data.value.toFixed(2)} | {deptPerct} | {delta}</div>
                                         </span>
                                     )

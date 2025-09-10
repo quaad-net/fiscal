@@ -53,6 +53,8 @@ export default function Fiscal(props){
 
     // Misc
     const [dataTable, setDataTable] = useState([]);
+    const [historicalExpenditures, setHistoricalExpenditures] = useState([]);
+    const [historicalRng, setHistoricalRng] = useState(0);
     const [mobileView, setMobileView] = useState(false);
     const [modalContent, setModalContent] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
@@ -123,8 +125,14 @@ export default function Fiscal(props){
                 if(key.split('-')[0] == month){moYr = key}
             })
         }
-        if(scenarioMod){getDeptExpendituresbyMonth(period, month, moYr.split('-')[1], perctScenMod)}
-        else{getDeptExpendituresbyMonth(period, month, moYr.split('-')[1])}
+        if(scenarioMod){
+            getDeptExpendituresbyMonth(period, month, moYr.split('-')[1], perctScenMod); 
+            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+        }
+        else{
+            getDeptExpendituresbyMonth(period, month, moYr.split('-')[1])
+            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+        }
     }
 
     function getDeptExpendituresbyMonth(period, month, year, perctMod){
@@ -605,7 +613,7 @@ export default function Fiscal(props){
                     // }
                     // // Add forecast month
                     // xLabels.push(monthMap.get(curMo));
-
+                
                     setLineChartData([
                         {data: maxData, label: 'max', id: 'pMaxId', color: 'brown', type: 'line', showMark: false},
                         {data: finalYrData, label: 'p1', color: 'rgb(92, 84, 237)', id: 'p1Id', type: 'line'}, 
@@ -668,7 +676,6 @@ export default function Fiscal(props){
                     setP1Total(p1Ttl);
                     if(perctMod){setScenarioMod(true); setPerctScenMod(perctMod)}
                     else{setScenarioMod(false); setPerctScenMod(null)}
-                    document.querySelector('#input-1').value = ''
                     getPurchFreq();
                 })
                 .catch((err)=>{console.log(err)})
@@ -678,54 +685,109 @@ export default function Fiscal(props){
             }
     }
 
+    async function getHistoricalExpenditures(years){
+        try{
+            if(historicalRng != years ){ // If true, a new range has been selected.
+                fetch(`${proxyUrl}/uwm-fs-expend/purchase-historical-records`)
+                .then((res)=>{return res.json()})
+                .then((res)=>{
+                    setModalContent(<></>);
+                    const data = JSON.parse(res.data);
+                    const earliestYear = new Date().toLocaleDateString().split('/')[2] - years;
+
+                    const series=[{data: []}];
+
+                    const xAxis = [{
+                        scaleType: 'point', 
+                        data: [],
+                        valueFormatter: (value) => value.toString().slice(2),
+                    }];
+                    
+                    data.map((d)=>{
+                        if(d.year > earliestYear -1 ){
+                            series[0].data.push(Number(d.ttl.toFixed(2)));
+                            xAxis[0].data.push(d.year)
+                        }
+                    })
+
+                    setBasicLineSeries(series);
+                    setBasicLineX(xAxis);
+                    setHistoricalExpenditures({series: series, xAxis: xAxis})
+
+                    setModalContent(
+                    <>
+                        <BasicLineChart series={series} xAxis={xAxis} />
+                        <div className='number-font' style={{textAlign: 'center', paddingBottom: 5}}>
+                            ▫ Historical Data
+                        </div>
+                    </>
+                    );
+                    setModalOpen(true);
+                    setHistoricalRng(years);
+                })
+            }
+            else{ // Range has been set and hasn't changed.
+                setModalContent(
+                <>
+                    <BasicLineChart series={historicalExpenditures.series} xAxis={historicalExpenditures.xAxis} />
+                    <div className='number-font' style={{textAlign: 'center', paddingBottom: 5}}>
+                        ▫ Historical Data
+                    </div>
+                </>
+                );
+                setModalOpen(true);
+            }
+        }
+        catch(err){console.log(err)}
+    }
+
     async function getPurchFreq(){
-        const mostFreqPurchased = [];
-        fetch(`${proxyUrl}/uwm-fs-expend/purchase-freq`)
-        .then((res)=>{return res.json()})
-        .then((res)=>{
-            const data = JSON.parse(res.data);
-            data.forEach((d, idx)=>{
-                if(idx<20){
-                    mostFreqPurchased.push(d);
-                }
-                else{return}
+        try{
+            const mostFreqPurchased = [];
+            fetch(`${proxyUrl}/uwm-fs-expend/purchase-freq`)
+            .then((res)=>{return res.json()})
+            .then((res)=>{
+                const data = JSON.parse(res.data);
+                setTopPurchases(data);
             })
-        })
-        setTopPurchases(mostFreqPurchased);
+        }
+        catch(err){console.log(err)}
     }
 
     async function getPurchHist(item_code){
-        await fetch(`${proxyUrl}/uwm-fs-expend/purchase-hist=${item_code}`)
-        .then((res)=>{return res.json()})
-        .then((res)=>{
-            setModalContent(<></>);
-            const data = JSON.parse(res.data);
-            const series=[
-                {
-                data: [],
-                baseline: 0,
-                showMark: false,
-                },
-            ];
-            const xAxis = [];
-            data.map((d, idx)=>{
-                series[0].data.push(Number(d.Unit_Cost.toFixed(2)));
-                xAxis.push(idx);
-            })
+        try{
+            await fetch(`${proxyUrl}/uwm-fs-expend/purchase-hist=${item_code}`)
+            .then((res)=>{return res.json()})
+            .then((res)=>{
+                setModalContent(<></>);
+                const data = JSON.parse(res.data);
+                const series=[
+                    {
+                    data: [],
+                    // showMark: false,
+                    },
+                ];
+                const xAxis = [];
+                data.map((d, idx)=>{
+                    series[0].data.push(Number(d.Unit_Cost.toFixed(2)));
+                    xAxis.push(idx);
+                })
 
-            setBasicLineSeries(series);
-            setBasicLineX(xAxis);
-            setModalContent(
-            <>
-                <BasicLineChart series={series} xAxis={xAxis} />
-                <div className='number-font' style={{textAlign: 'center', paddingBottom: 5}}>
-                    {item_code} ▫ Unit Costs<br/> 
-                    ▫ Latest to Right.
-                </div>
-            </>
-            );
-            setModalOpen(true);
-        })
+                setBasicLineSeries(series);
+                setBasicLineX(xAxis);
+                setModalContent(
+                <>
+                    <BasicLineChart series={series} xAxis={xAxis} basicX={true} />
+                    <div className='number-font' style={{textAlign: 'center', paddingBottom: 5}}>
+                        {item_code} ▫ Unit Costs<br/> 
+                        ▫ Latest to Right.
+                    </div>
+                </>
+                );
+                setModalOpen(true);
+            })
+        }
+        catch(err){console.log(err)}
     }
 
     return(
@@ -838,18 +900,6 @@ export default function Fiscal(props){
                         </div>
                     </span>
                     <br/>
-                    <div
-                        className="textInputWrapper"
-                    >
-                        <input id="input-1" placeholder="+/-0.00" type="text" className="textInput" maxLength="4"
-                            onChange={(e)=>{
-                            }}
-                            onKeyDown={(e)=>{
-                                if(e.key === 'Enter' && Number(e.target.value)){setLineChartData([]); getExpenditures(e.target.value)}
-                            }}
-                        />
-                    </div>
-                    <br/>
                     {scenarioMod ? 
                     <>
                     <br/>
@@ -866,11 +916,13 @@ export default function Fiscal(props){
                     }
                     {topPurchases.length>0 ?
                         <div style={{width: 'fit-content', margin: 'auto', borderTop: '1px solid gray', paddingTop: 5}}>
+                            <br/>
                             <div>
                                 <img src='eye.svg' width='15px'/>&nbsp;&nbsp;Watchlist
                             </div>
                             <br/>
                             {topPurchases.map((d)=>{
+                                const pc = d.Price_Chg
                                 return(
                                     <div 
                                         key={d.PO_Item_Code}
@@ -880,7 +932,9 @@ export default function Fiscal(props){
                                             getPurchHist(d.PO_Item_Code)
                                         }}
                                         >
-                                            ▫&nbsp;{d.PO_Item_Code}
+                                            ▫&nbsp;{d.PO_Item_Code}&nbsp;
+                                            <span style={{color: 'white'}}>{Math.abs(pc) > .05 && pc< 0 ? '-' : ''  }</span>
+                                            <span style={{color: 'red'}}>{Math.abs(pc) > .05 && pc > 0 ? '+' : ''  }</span>
                                     </div>
 
                                 )
@@ -905,7 +959,7 @@ export default function Fiscal(props){
                 paddingLeft: '10px', 
                 paddingRight: '10px',
                 minWidth: '275px',
-                overflowX: 'auto',              
+                overflowX: 'auto',           
             }}
         >      
             <div className="main-title" style={{display:'flex', width: 'fit-content', marginLeft: 'auto', marginRight: 'auto'}}>
@@ -968,21 +1022,34 @@ export default function Fiscal(props){
                             <img src='/spreadsheet.svg' width='25px' />
                     </button>
                 </div>
-                <div style={{fontSize: 25, borderRadius: 5, borderLeft: '1px solid rgb(51, 51, 51)', borderRight: '1px solid rgb(51, 51, 51)', padding: 5, margin: 5, flex: .5}}>Expenditures
-                    <div className="subtitle">Trailing 11 mo</div>
+                <div 
+                    style={{
+                        fontSize: 25, 
+                        borderRadius: 5, 
+                        borderLeft: '1px solid rgb(51, 51, 51)', 
+                        borderRight: '1px solid rgb(51, 51, 51)', 
+                        padding: 5, 
+                        margin: 5, 
+                        flex: .5}}
+                >Expenditures
+                    <div className="subtitle">Trailing 11 mo <span style={{color: 'gray'}}>{perctScenMod || ''}</span></div>
                 </div>
-                {mobileView ? <></>
-                :
-                <>
-                <div className='title-action' style={{fontSize: 15, borderRight: '1px solid rgb(51, 51, 51)', padding: 5, margin: 5, flex: .2}}><span style={{color: 'whitesmoke'}}>Hist</span>
-                    <div className="subtitle">5 yr</div>
+                <div 
+                    className='title-action' 
+                    style={{fontSize: mobileView ? 12 : 15, borderRight: '1px solid rgb(51, 51, 51)', padding: 5, margin: 5, flex: .2}}
+                    onClick={()=>{getHistoricalExpenditures(5)}}
+                >
+                    <span style={{color: 'whitesmoke'}}>Hist</span>
+                    <div style={{color: 'lightcoral'}}>5 yr</div>
                 </div>
-
-                <div className='title-action' style={{fontSize: 15, borderRadius: 5, borderRight: '1px solid rgb(51, 51, 51)', padding: 5, margin: 5, flex: .2}}><span style={{color: 'whitesmoke'}}>Hist</span>
-                    <div className="subtitle">10 yr</div>
+                <div 
+                    className='title-action' 
+                    style={{fontSize: mobileView ? 12 : 15, borderRadius: 5, borderRight: '1px solid rgb(51, 51, 51)', padding: 5, margin: 5, flex: .2}}
+                    onClick={()=>{getHistoricalExpenditures(10)}}
+                >
+                    <span style={{color: 'whitesmoke'}}>Hist</span>
+                    <div style={{color: 'lightcoral'}}>10 yr</div>
                 </div>
-                </>
-                }
             </div>
             <div className="g1-container">
                 <div className="g1" id="g1-1">
@@ -997,6 +1064,8 @@ export default function Fiscal(props){
                         padding: '5px',
                         }}
                     >
+                        <div style={{width: '100%', borderBottom: '1px solid rgb(51, 51, 51)'}}></div>
+                        {mobileView ? <></>: <br/>}
                         {summary.min != undefined ? 
                         <>
                             <div style={{display: mobileView ? 'block' : 'flex'}}>

@@ -1,5 +1,11 @@
 import { createTheme, ThemeProvider } from '@mui/material';
-import { LineChart } from '@mui/x-charts/LineChart';
+import {
+  LineChart,
+  LinePlot,
+  MarkPlot,
+  lineElementClasses,
+  markElementClasses,
+} from '@mui/x-charts/LineChart';
 
 const darkTheme = createTheme({
 palette: {
@@ -17,10 +23,16 @@ export default function BasicLineChart(props) {
         //     data: [2, 5.5, 2, 8.5, 1.5, 5],
         //     },
         // ]}
-        xAxis={[{ data: props?.xAxis || [] }]}
+        {...(props.basicX ? {xAxis: [{data: props?.xAxis || [], position: 'none'}]}:{xAxis: props.xAxis})}
+        yAxis={[{min: 0}]}
         series={props?.series || [] }
         width={250}
         height={200}
+        sx={{
+          [`& .${markElementClasses.root}`]: {
+            r: 2, // Modify the circle radius
+          },
+        }}
         />
     </ThemeProvider>
   );

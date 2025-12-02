@@ -1122,9 +1122,9 @@ export default function Fiscal(props){
                                                     >
                                                         <div style={{marginBottom: '10px', marginTop: '5px'}} className='number-font'>
                                                             <span>○&nbsp;</span>
-                                                            {c.moYr}: <span style={{color: 'gray'}}>{c.monthly_total.toFixed(2)}</span>
-                                                            &nbsp;○ ΔPM: <span style={{color: 'gray'}}>{c.deltaCompPrevMo.toFixed(2)} </span>
-                                                            &nbsp;○ ΔPY: <span style={{color: 'gray'}}>{c.deltaCompPrevYrMo.toFixed(2)} </span>
+                                                            {c.moYr}: <span style={{color: 'gray'}}>{c.monthly_total?.toFixed(2)}</span>
+                                                            &nbsp;○ ΔPM: <span style={{color: 'gray'}}>{c.deltaCompPrevMo?.toFixed(2)} </span>
+                                                            &nbsp;○ ΔPY: <span style={{color: 'gray'}}>{c.deltaCompPrevYrMo?.toFixed(2)} </span>
                                                         </div>
                                                         <Divider sx={{backgroundColor: 'gray'}}/>
                                                     </div>
